@@ -1,6 +1,6 @@
 var http = require('http'),
 	mongoose = require('mongoose');
-
+var port = process.env.PORT || 8080;
 var mongoUri = process.env.MONGOLAB_URI || 
   process.env.MONGOHQ_URL || 
   'mongodb://localhost/homeAutomation'; 
@@ -49,7 +49,7 @@ var lampeList=	[
 					{id:0,on:true}
 				];
 // Chargement du fichier index.html affiché au client
-console.log("--------START SERVER--------");
+console.log("--------START SERVER ON PORT "+port+"--------");
 var server = http.createServer(function(req, res) {
     res.writeHead(200, {"Content-Type": "text/html"});
 });
@@ -90,7 +90,7 @@ io.sockets.on('connection', function (socket) {
 })
 
 
-server.listen(8080);
+server.listen(port);
 
 
 function getLights(){
