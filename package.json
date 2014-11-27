@@ -1,0 +1,16 @@
+{
+  "name": "domotique_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "socket.io": "^1.2.1",
+    "mongoose": "^3.8.19"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Youenn PENNARUN",
+  "license": "MIT"
+}
