@@ -1,7 +1,10 @@
 var http = require('http'),
 	mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/homeAutomation',function(err) {
+var mongoUri = process.env.MONGOLAB_URI || 
+  process.env.MONGOHQ_URL || 
+  'mongodb://localhost/homeAutomation'; 
+mongoose.connect(mongoUri,function(err) {
     if(err)
         console.trace('error occurred, when attempted to connect db. Error: ' + err);
 });
