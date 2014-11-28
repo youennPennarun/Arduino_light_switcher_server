@@ -1,17 +1,15 @@
 var http = require('http'),
 	mongoose = require('mongoose'),
+	config = require('./config.js'),
 	models = require('./models.js')(mongoose);
-var connection = require('./mongooseConnection')(mongoose,models);
+var connection = require('./mongooseConnection')(mongoose,models,config);
 
 var Light = models.Light;
 /*
 */
-
-
-//lampe = {id,allumé?};
 var lampeList=	[];
 // Chargement du fichier index.html affiché au client
-console.log("--------START SERVER ON PORT "+port+"--------");
+console.log("--------START SERVER ON PORT "+config.port+"--------");
 var server = http.createServer(function(req, res) {
     res.writeHead(200, {"Content-Type": "text/html"});
 });
@@ -52,7 +50,7 @@ io.sockets.on('connection', function (socket) {
 })
 
 
-server.listen(port);
+server.listen(config.port);
 
 
 function getLights(){

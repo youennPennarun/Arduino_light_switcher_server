@@ -1,18 +1,13 @@
-module.exports = function(mongoose,models) {
-	var port = process.env.PORT || 8080;
-	var mongoUri = 	process.env.MONGOLAB_URI || 
-					process.env.MONGOHQ_URL || 
-					'mongodb://localhost/homeAutomation'; 
-	mongoose.connect(mongoUri,function(err) {
+module.exports = function(mongoose,models,config) {
+	 
+	mongoose.connect(config.mongoUri,function(err) {
 		if(err)
 			console.trace('error occurred, when attempted to connect db. Error: ' + err);
 	});
-
 	var db = mongoose.connection;
 
 	db.on('error', console.error.bind(console, 'connection error:'));
 	db.once('open', function callback () {
-		console.log("connected");
 		models.Light.remove({}, function(err) { 
 		   console.log('collection removed') 
 		});
@@ -27,10 +22,8 @@ module.exports = function(mongoose,models) {
 
 				l1.save(function(err, l) {
 					if (err) return console.error(err);
-					console.log(l);
 				});
 			}
-			console.log(lights);
 		});
 		
 	});
