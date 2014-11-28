@@ -1,14 +1,9 @@
 var http = require('http'),
-	mongoose = require('mongoose');
-var models = require('./mongooseConnection')(mongoose);
+	mongoose = require('mongoose'),
+	models = require('./models.js');
+var connection = require('./mongooseConnection')(mongoose,models);
 
-
-var lightsSchema = mongoose.Schema({
-	id: Number,
-	light: String,
-	isOn: Boolean
-});
-var Light = mongoose.model('Light', lightsSchema);
+var Light = models.Light;
 /*
 */
 
