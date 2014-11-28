@@ -19,12 +19,24 @@ module.exports = function(mongoose,models,config) {
 					name: "Light kitchen",
 					isOn:false
 				});
+				var l2 = new models.Light({
+					id: 2,
+					name: "Light paul'sBedroom ",
+					isOn:true
+				});
 
 				l1.save(function(err, l) {
 					if (err){
 						return console.error(err);
 					}else{
-						console.log(l1+" added");
+						console.log(l.name+" added");
+					}
+				});
+				l2.save(function(err, l) {
+					if (err){
+						return console.error(err);
+					}else{
+						console.log(l.name+" added");
 					}
 				});
 			}
