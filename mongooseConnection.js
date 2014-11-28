@@ -14,14 +14,18 @@ module.exports = function(mongoose,models,config) {
 		models.Light.find(function (err, lights) {
 			if (err) return console.error(err);
 			if(!lights.length){
-				var l1 = new Light({
+				var l1 = new models.Light({
 					id: 1,
 					name: "Light kitchen",
 					isOn:false
 				});
 
 				l1.save(function(err, l) {
-					if (err) return console.error(err);
+					if (err){
+						return console.error(err);
+					}else{
+						console.log(l1+" added");
+					}
 				});
 			}
 		});

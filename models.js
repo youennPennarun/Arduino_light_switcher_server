@@ -4,7 +4,7 @@ module.exports = function(mongoose) {
 
 	var lightsSchema = new Schema({
 		id: Number,
-		light: String,
+		name: String,
 		isOn: Boolean
 	});
     var models = {
