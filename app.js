@@ -1,6 +1,6 @@
 var http = require('http'),
 	mongoose = require('mongoose'),
-	models = require('./models.js');
+	models = require('./models.js')(mongoose);
 var connection = require('./mongooseConnection')(mongoose,models);
 
 var Light = models.Light;
