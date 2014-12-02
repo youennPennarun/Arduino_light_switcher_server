@@ -24,8 +24,8 @@ io.sockets.on('connection', function (socket) {
 	socket.on('setLampeState',function (data){
 		Light.update({ id : data.id}, { isOn : data.isOn }, { multi : false }, function (err) {
 			if (err) { throw err; }
-			socket.broadcast.emit('lightStateChanged', {id:data.id,isOn:false});
-			socket.emit('lightStateChanged', {id:data.id,isOn:false});
+			socket.broadcast.emit('lightStateChanged', {id:data.id,isOn:data.isOn});
+			socket.emit('lightStateChanged', {id:data.id,isOn:data.isOn});
 		});
 	});
 	socket.on('reqLampesStates',function (){
