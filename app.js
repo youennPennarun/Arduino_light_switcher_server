@@ -21,21 +21,11 @@ var io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket) {
     console.log('Un client est connecté !');
 	socket.broadcast.emit('newClientConnected', {id:45});
-	socket.on('setLampeOff',function (data){
-		console.log("lampe off");
-		Light.update({ id : data.id}, { isOn : false }, { multi : false }, function (err) {
+	socket.on('setLampeState',function (data){
+		Light.update({ id : data.id}, { isOn : data.isOn }, { multi : false }, function (err) {
 			if (err) { throw err; }
 			socket.broadcast.emit('lightStateChanged', {id:data.id,isOn:false});
 			socket.emit('lightStateChanged', {id:data.id,isOn:false});
-		});
-	});
-	socket.on('setLampeOn',function (data){
-		console.log("lampe on");
-		Light.update({ id : data.id}, { isOn : true }, { multi : false }, function (err) {
-			if (err) { throw err; }
-			console.log("sending changed");
-			socket.broadcast.emit('lightStateChanged', {id:data.id,isOn:true});
-			socket.emit('lightStateChanged', {id:data.id,isOn:true});
 		});
 	});
 	socket.on('reqLampesStates',function (){
