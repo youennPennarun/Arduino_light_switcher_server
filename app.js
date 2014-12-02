@@ -5,6 +5,7 @@ var http = require('http'),
 var connection = require('./mongooseConnection')(mongoose,models,config);
 
 var Light = models.Light;
+var Settings = models.Settings;
 /*
 */
 var lampeList=	[];
@@ -21,29 +22,50 @@ var io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket) {
     console.log('Un client est connecté !');
 	socket.broadcast.emit('newClientConnected', {id:45});
+	
+	socket.on('reqLampesStates',function (){
+		console.log("sending light state");
+		
+		Light.find(function (err, lights) {
+			if (err) return console.error(err);
+			socket.emit('resLampesStates', lights);
+		});
+	});
 	socket.on('setLampeState',function (data){
+		console.log("set lamp state");
 		Light.update({ id : data.id}, { isOn : data.isOn }, { multi : false }, function (err) {
 			if (err) { throw err; }
 			socket.broadcast.emit('lightStateChanged', {id:data.id,isOn:data.isOn});
 			socket.emit('lightStateChanged', {id:data.id,isOn:data.isOn});
 		});
 	});
-	socket.on('reqLampesStates',function (){
-		console.log("sending light state");
-		
-		Light.find(function (err, lights) {
-			if (err) return console.error(err);
-			console.log(lights);
-			socket.emit('resLampesStates', lights);
-		});
-	});
+	
 	socket.on('reqSettings',function (){
 		console.log("sending settings");
 		
 		Settings.find(function (err, settings) {
 			if (err) return console.error(err);
-			console.log(lights);
 			socket.emit('resSettings', settings);
+		});
+	});
+	socket.on('setSettings',function (data){
+		console.log("set settings");
+		
+		Settings.remove({}, function(err) { 
+		   console.log('collection removed') 
+		});
+		var settings = new Settings({
+				weatherCityId: data.cityId,
+				weatherCityName: data.cityName,
+				weatherCityCountry: data.cityCountry
+		});
+		settings.save(function(err, s ){
+			if (err){
+				return console.error(err);
+			}else{
+				socket.broadcast.emit('settingsChanged', settings);
+				socket.emit('settingsChanged', settings);
+			}
 		});
 	});
 })

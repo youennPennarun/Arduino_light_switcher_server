@@ -14,7 +14,7 @@ module.exports = function(mongoose) {
 	});
     var models = {
       Light : mongoose.model('Light', lightsSchema),
-      Settings : mongoose.model('Light', settingsSchema)
+      Settings : mongoose.model('Settings', settingsSchema)
     };
 	return models;
 }
