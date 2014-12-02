@@ -7,8 +7,14 @@ module.exports = function(mongoose) {
 		name: String,
 		isOn: Boolean
 	});
+	var settingsSchema = new Schema({
+		weatherCityId: Number,
+		weatherCityName: String,
+		weatherCityCountry: String
+	});
     var models = {
-      Light : mongoose.model('Light', lightsSchema)
+      Light : mongoose.model('Light', lightsSchema),
+      Settings : mongoose.model('Light', settingsSchema)
     };
 	return models;
 }

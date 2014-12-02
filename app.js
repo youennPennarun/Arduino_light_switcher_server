@@ -37,6 +37,15 @@ io.sockets.on('connection', function (socket) {
 			socket.emit('resLampesStates', lights);
 		});
 	});
+	socket.on('reqSettings',function (){
+		console.log("sending settings");
+		
+		Settings.find(function (err, settings) {
+			if (err) return console.error(err);
+			console.log(lights);
+			socket.emit('resSettings', settings);
+		});
+	});
 })
 
 
